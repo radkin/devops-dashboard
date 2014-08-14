@@ -1,4 +1,4 @@
-# Reporter sloth-finder library that creates reports.
+# Reporter devops-dashboard library that creates reports.
 class Reporter
 
   #attr_accessor :app_id, :type
