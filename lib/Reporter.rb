@@ -20,8 +20,8 @@ $: << File.join(BASEDIR, "lib")
     gerrit_lexicon          = GerritDoorman.new(@gerrit_url, @gerrit_user, @gerrit_pass)
     gerrit_lexicon.type     = "projects"
     proj_obj                = gerrit_lexicon.door
-    proj_obj.each do |proj|
-      puts proj
+    proj_obj.each do |key, value|
+      puts key
     end
   end
 
