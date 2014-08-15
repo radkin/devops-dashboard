@@ -21,11 +21,11 @@ Define these environment variables
 
 Bash Example:
 
-`bash
+```bash
 export GERRIT_URL="http://localhost:8080"
 export GERRIT_USER="richard_castle"
 export GERRIT_PASS="nikki_heat"
-`
+```
 
 ### Step 2
 Run 
