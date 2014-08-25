@@ -32,6 +32,27 @@ Run
 
 `bin/devops-dashboard.rb`
 
+## Useful API tips
+
+### Jenkins
+
+*Top Level JSON*
+
+* assignedLabels
+* mode
+* nodeDescription
+* nodeName
+* numExecutors
+* description
+* jobs
+* overallLoad
+* primaryView
+* quietingDown
+* slaveAgentPort
+* unlabeledLoad
+* useCrumbs
+* useSecurity
+* views
 
 ## ToDo
 

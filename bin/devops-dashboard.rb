@@ -35,23 +35,26 @@ def main()
   j_masters_str.split(/,/).each do |master|
     @jenkins_masters.push(*master)
   end
+  $LOG.info("Jenkins masters are #{@jenkins_masters}")
   jenkins_user      = ENV["JENKINS_USER"]
   jenkins_pass      = ENV["JENKINS_PASS"]
 
+=begin 
   $LOG.info("Gerrit Report")
   gen_report              = Reporter.new
   gen_report.gerrit_url   = gerrit_url
   gen_report.gerrit_user  = gerrit_user
   gen_report.gerrit_pass  = gerrit_pass
   gen_report.GerritProjects
-  
-  #$LOG.info("Jenkins Report")
-  #gen_report                = Reporter.new
-  #gen_report.jenkins_user   = jenkins_user
-  #gen_report.jenkins_pass   = jenkins_pass
-  #gen_report.jenkins_url    = "http://#{@jenkins_masters[0]}:8080"
-  #$LOG.info("for Master #{jenkins_masters[0]}")
-  #gen_report.jobs_status
+=end
+ 
+  $LOG.info("Jenkins Report")
+  gen_report                = Reporter.new
+  gen_report.jenkins_user   = jenkins_user
+  gen_report.jenkins_pass   = jenkins_pass
+  gen_report.jenkins_url    = "http://#{@jenkins_masters[0]}:8080"
+  $LOG.info("for Master #{@jenkins_masters[0]}")
+  gen_report.jobs_status
 end
 
 main()

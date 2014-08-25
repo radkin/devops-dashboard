@@ -14,7 +14,7 @@ $: << File.join(BASEDIR, "lib")
 
   # Gerrit projects report 
   def GerritProjects
-    $LOG.info("Projects list")
+    $LOG.info("Gerrit Projects list")
     gerrit_lexicon              = GerritDoorman.new
     gerrit_lexicon.gerrit_url   = @gerrit_url
     gerrit_lexicon.gerrit_user  = @gerrit_user
@@ -24,15 +24,26 @@ $: << File.join(BASEDIR, "lib")
       puts key
     end
   end
-  # Jenkins Slaves list report 
-  def list_slaves
+  # Jenkins jobs status report 
+  def jobs_status
+    $LOG.info("Jenkins jobs status report")
     jenkins_lexicon               = JenkinsDoorman.new
     jenkins_lexicon.jenkins_url   = @jenkins_url
     jenkins_lexicon.jenkins_user  = @jenkins_user
     jenkins_lexicon.jenkins_pass  = @jenkins_pass
-    proj_obj                      = jenkins_lexicon.door
-    proj_obj.each do |key, value|
-      puts key
+    proj_objects                  = jenkins_lexicon.door
+    proj_objects.each do |object|
+      object.each do |attributes|
+        if attributes.is_a?(Array) && attributes.count > 1
+          puts "failed builds"
+          puts "--------"
+          attributes.each do |line|
+            if line["color"] == "red"
+              puts "#{line["name"]}"
+            end
+          end
+        end
+      end
     end
   end
 
