@@ -1,17 +1,14 @@
 # devops-dashboard library that opens doors to the Gerrit API.
 class GerritDoorman
 
-  attr_accessor :app_id, :type
+  attr_accessor :gerrit_url, :gerrit_user, :gerrit_pass
 
   require 'uri'
   require "net/http"
   require 'net/http/digest_auth'
   require "json"
 
-  def initialize(gerrit_url, gerrit_user, gerrit_pass)
-    @gerrit_url   = gerrit_url
-    @gerrit_user  = gerrit_user
-    @gerrit_pass  = gerrit_pass
+  def initialize()
   end
 
   # door, the standard request that is nothing fancy and requires no special information
