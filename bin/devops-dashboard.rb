@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -w
+#!/usr/bin/env ruby
 
 require 'logger'
 
@@ -21,9 +21,9 @@ rescue Exception => e
 end
 
 #$LOG         = Logger.new($stderr)
-$LOG.level    = Logger::DEBUG
+#$LOG.level    = Logger::DEBUG
 #$LOG.level   = Logger::INFO
-#$LOG.level   = Logger::ERROR
+$LOG.level   = Logger::ERROR
 
 def main()
   gerrit_url    = ENV["GERRIT_URL"]
@@ -39,22 +39,26 @@ def main()
   jenkins_user      = ENV["JENKINS_USER"]
   jenkins_pass      = ENV["JENKINS_PASS"]
 
-=begin 
   $LOG.info("Gerrit Report")
   gen_report              = Reporter.new
   gen_report.gerrit_url   = gerrit_url
   gen_report.gerrit_user  = gerrit_user
   gen_report.gerrit_pass  = gerrit_pass
   gen_report.GerritProjects
-=end
  
-  $LOG.info("Jenkins Report")
+  $LOG.info("Jenkins Reports")
   gen_report                = Reporter.new
   gen_report.jenkins_user   = jenkins_user
   gen_report.jenkins_pass   = jenkins_pass
-  gen_report.jenkins_url    = "http://#{@jenkins_masters[0]}:8080"
-  $LOG.info("for Master #{@jenkins_masters[0]}")
-  gen_report.jobs_status
+
+  @jenkins_masters.each do |jenkins_master|
+    puts "Jenkins report for #{jenkins_master}"
+    gen_report.jenkins_url    = "http://#{jenkins_master}"
+    status                    = gen_report.jobs_status
+    puts "#{status["red"]} failed jobs"
+    puts "#{status["blue"]} successful jobs"
+  end
+
 end
 
 main()

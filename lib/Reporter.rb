@@ -26,7 +26,9 @@ $: << File.join(BASEDIR, "lib")
   end
   # Jenkins jobs status report 
   def jobs_status
-    $LOG.info("Jenkins jobs status report")
+    @red                          = 0
+    @blue                         = 0
+    status                        = Hash.new
     jenkins_lexicon               = JenkinsDoorman.new
     jenkins_lexicon.jenkins_url   = @jenkins_url
     jenkins_lexicon.jenkins_user  = @jenkins_user
@@ -35,16 +37,18 @@ $: << File.join(BASEDIR, "lib")
     proj_objects.each do |object|
       object.each do |attributes|
         if attributes.is_a?(Array) && attributes.count > 1
-          puts "failed builds"
-          puts "--------"
           attributes.each do |line|
             if line["color"] == "red"
-              puts "#{line["name"]}"
+              @red += 1
+            elsif line["color"] == "blue"
+              @blue += 1
             end
           end
         end
       end
     end
+    status = {"blue" => "#{@blue}", "red" => "#{@red}"}
+    return status
   end
 
 end
