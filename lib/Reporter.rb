@@ -4,8 +4,8 @@ class Reporter
   attr_accessor :gerrit_url, :gerrit_user, :gerrit_pass, :jenkins_user, :jenkins_pass, :jenkins_url
 
 # custom libs
-BASEDIR = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-$: << File.join(BASEDIR, "lib")
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
   require "GerritDoorman"
   require "JenkinsDoorman"
 
