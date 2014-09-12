@@ -26,30 +26,21 @@ end
 $LOG.level   = Logger::ERROR
 
 def main
-  gerrit_url    = ENV['GERRIT_URL']
-  gerrit_user   = ENV['GERRIT_USER']
-  gerrit_pass   = ENV['GERRIT_PASS']
-
+  # gather a list of jenkins masters
   j_masters_str     = ENV['JENKINS_MASTERS']
   @jenkins_masters  = []
   j_masters_str.split(/,/).each do |master|
     @jenkins_masters.push(*master)
   end
   $LOG.info('Jenkins masters are #{@jenkins_masters}')
-  jenkins_user      = ENV['JENKINS_USER']
-  jenkins_pass      = ENV['JENKINS_PASS']
 
+  # run gerrit report
   $LOG.info('Gerrit Report')
   gen_report                = Reporter.new
-  gerrit_params             = [ "#{gerrit_url}", "#{gerrit_user}", "#{gerrit_pass}" ]
-  gen_report.gerrit_params  = gerrit_params
-  gen_report.GerritProjects
+  gen_report.gerrit_projects
+  # run jenkins report
   $LOG.info('Jenkins Reports')
   gen_report                = Reporter.new
-  jenkins_params            = [ "#{jenkins_user}","#{jenkins_pass}" ]
-  gen_report.jenkins_user   = jenkins_user
-  gen_report.jenkins_pass   = jenkins_pass
-
   @jenkins_masters.each do |jenkins_master|
     puts "Jenkins report for #{jenkins_master}"
     gen_report.jenkins_url    = "http://#{jenkins_master}"
