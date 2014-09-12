@@ -1,17 +1,16 @@
 # devops-dashboard library that opens doors to the Gerrit API.
 class GerritDoorman
-
   attr_accessor :gerrit_url, :gerrit_user, :gerrit_pass
 
   require 'uri'
-  require "net/http"
+  require 'net/http'
   require 'net/http/digest_auth'
-  require "json"
+  require 'json'
 
-  def initialize()
+  def initialize
   end
 
-  # door, the standard request that is nothing fancy and requires no special information
+  # door, standard request for nothing fancy, requires no special information
   def door
     $LOG.info("URL is #{@gerrit_url}")
     digest_auth   = Net::HTTP::DigestAuth.new
@@ -30,5 +29,4 @@ class GerritDoorman
     app_obj       = JSON.parse(clean_step2)
     return app_obj
   end
-
 end

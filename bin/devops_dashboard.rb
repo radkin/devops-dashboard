@@ -5,14 +5,14 @@ require 'logger'
 # custom libs
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'Reporter'
+require 'reporter'
 
 # Logger#debug, Logger#info, Logger#warn, Logger#error, and Logger#fatal
 begin
   $LOG = Logger.new(
     '/var/log/devops-dashboard/devops-dashboard.log',
     10,
-    1024000
+    1_024_000
   )
 rescue Exception => e
   puts 'unable to write to #{wrk_dir}/devops-dashboard.log ... \
@@ -31,7 +31,7 @@ def main
   gerrit_pass   = ENV['GERRIT_PASS']
 
   j_masters_str     = ENV['JENKINS_MASTERS']
-  @jenkins_masters  = Array.new
+  @jenkins_masters  = []
   j_masters_str.split(/,/).each do |master|
     @jenkins_masters.push(*master)
   end
@@ -40,13 +40,13 @@ def main
   jenkins_pass      = ENV['JENKINS_PASS']
 
   $LOG.info('Gerrit Report')
-  gen_report              = Reporter.new
-  gen_report.gerrit_url   = gerrit_url
-  gen_report.gerrit_user  = gerrit_user
-  gen_report.gerrit_pass  = gerrit_pass
+  gen_report                = Reporter.new
+  gerrit_params             = [ "#{gerrit_url}", "#{gerrit_user}", "#{gerrit_pass}" ]
+  gen_report.gerrit_params  = gerrit_params
   gen_report.GerritProjects
   $LOG.info('Jenkins Reports')
   gen_report                = Reporter.new
+  jenkins_params            = [ "#{jenkins_user}","#{jenkins_pass}" ]
   gen_report.jenkins_user   = jenkins_user
   gen_report.jenkins_pass   = jenkins_pass
 
@@ -57,7 +57,6 @@ def main
     puts "#{status['red']} failed jobs"
     puts "#{status['blue']} successful jobs"
   end
-
 end
 
-main()
+main
