@@ -6,9 +6,6 @@ class JenkinsDoorman
   require 'net/http'
   require 'json'
 
-  def initialize
-  end
-
   # door, standard request, nothing fancy, requires no special information
   def door
     jenkins_user      = @jenkins_params[0]

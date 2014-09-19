@@ -45,11 +45,8 @@ class Reporter
       object.each do |attributes|
         if attributes.is_a?(Array) && attributes.count > 1
           attributes.each do |line|
-            if line['color'] == 'red'
-              @red += 1
-            elsif line['color'] == 'blue'
-              @blue += 1
-            end
+            @red += 1 if line['color'] == 'red'
+            @blue += 1 if line['color'] == 'blue'
           end
         end
       end

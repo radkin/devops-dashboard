@@ -1,13 +1,11 @@
 #!/usr/bin/env ruby
+# coding: utf-8
 
 require 'logger'
-
-# custom libs
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'reporter'
 
-# Logger#debug, Logger#info, Logger#warn, Logger#error, and Logger#fatal
 begin
   $LOG = Logger.new(
     '/var/log/devops-dashboard/devops-dashboard.log',
@@ -19,10 +17,6 @@ rescue Exception => e
   writing to stdout'
   $LOG = Logger.new($stderr)
 end
-
-# $LOG         = Logger.new($stderr)
-# $LOG.level   = Logger::DEBUG
-# $LOG.level   = Logger::INFO
 $LOG.level   = Logger::ERROR
 
 def main
@@ -33,7 +27,6 @@ def main
     @jenkins_masters.push(*master)
   end
   $LOG.info('Jenkins masters are #{@jenkins_masters}')
-
   # run gerrit report
   $LOG.info('Gerrit Report')
   gen_report                = Reporter.new
@@ -49,5 +42,4 @@ def main
     puts "#{status['blue']} successful jobs"
   end
 end
-
 main

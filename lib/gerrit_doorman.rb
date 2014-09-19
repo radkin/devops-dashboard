@@ -7,9 +7,6 @@ class GerritDoorman
   require 'net/http/digest_auth'
   require 'json'
 
-  def initialize
-  end
-
   # door, standard request for nothing fancy, requires no special information
   def door
     gerrit_user   = @gerrit_params[0]
