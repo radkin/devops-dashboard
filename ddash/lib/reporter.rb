@@ -24,6 +24,15 @@ class Reporter
     end
     return @projects
   end
+  # gather a list of jenkins masters
+  def gen_masters
+    j_masters_str     = ENV['JENKINS_MASTERS']
+    @jenkins_masters  = []
+    j_masters_str.split(/,/).each do |master|
+      @jenkins_masters.push(*master)
+    end
+    return @jenkins_masters
+  end
   # Jenkins jobs status report
   def jobs_status
     jenkins_user                    = ENV['JENKINS_USER']
