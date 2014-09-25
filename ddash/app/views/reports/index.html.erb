@@ -1,0 +1,20 @@
+<h1> Gerrit Projects </h1>
+ 
+<% @gerrit_projects.each do |report| %>
+  <tr>
+    <td><%= report %></td>
+  </tr>
+<% end %>
+
+<h1> Jenkins Job status </h1>
+ 
+<% @jenkins_masters.each do |master| %>
+  <tr>
+    <td><%= master.split(/:/)[0] %></td>
+  </tr>
+<% end %>
+<% @all_status.each do |status| %>
+  <tr>
+    <td><%= status %></td>
+  </tr>
+<% end %>

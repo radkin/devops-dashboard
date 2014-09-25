@@ -12,7 +12,6 @@ class GerritDoorman
     gerrit_user   = @gerrit_params[0]
     gerrit_pass   = @gerrit_params[1]
     gerrit_url    = @gerrit_params[2]
-    $LOG.info("URL is #{gerrit_url}")
     digest_auth   = Net::HTTP::DigestAuth.new
     uri           = URI.parse "#{gerrit_url}/a/projects/"
     uri.user      = "#{gerrit_user}"

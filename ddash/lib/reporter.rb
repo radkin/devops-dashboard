@@ -3,17 +3,12 @@ class Reporter
   attr_accessor :jenkins_url
 
   # custom libs
-  lib = File.expand_path('../../lib', __FILE__)
-  $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-  require 'gerrit_doorman'
-  require 'jenkins_doorman'
-
-  def initialize
-  end
+  require_dependency 'gerrit_doorman'
+  require_dependency 'jenkins_doorman'
 
   # Gerrit projects report
   def gerrit_projects
-    $LOG.info('Gerrit Projects list')
+    @projects                     = []
     gerrit_user                   = ENV['GERRIT_USER']
     gerrit_pass                   = ENV['GERRIT_PASS']
     gerrit_url                    = ENV['GERRIT_URL']
@@ -25,8 +20,18 @@ class Reporter
     ]
     proj_obj                      = gerrit_lexicon.door
     proj_obj.each do |key, _value|
-      puts key
+      @projects.push(*key)
     end
+    return @projects
+  end
+  # gather a list of jenkins masters
+  def gen_masters
+    j_masters_str     = ENV['JENKINS_MASTERS']
+    @jenkins_masters  = []
+    j_masters_str.split(/,/).each do |master|
+      @jenkins_masters.push(*master)
+    end
+    return @jenkins_masters
   end
   # Jenkins jobs status report
   def jobs_status
