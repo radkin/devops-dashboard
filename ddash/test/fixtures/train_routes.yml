@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  jira_tickets: MyString
+  jenkins_jobs: MyString
+  gitlab_mrs: 1
+  created: 2014-09-26 14:43:02
+
+two:
+  jira_tickets: MyString
+  jenkins_jobs: MyString
+  gitlab_mrs: 1
+  created: 2014-09-26 14:43:02

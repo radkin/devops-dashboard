@@ -56,7 +56,7 @@ class Reporter
         end
       end
     end
-    status = { 'blue' => "#{@blue}", 'red' => "#{@red}" }
+    status = { 'jenkins_url' => "#{@jenkins_url}", 'blue' => "#{@blue}", 'red' => "#{@red}" }
     return status
   end
 end

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  masters_id: 
+  jenkins_jobs_id: 
+  slaves_id: 
+
+two:
+  masters_id: 
+  jenkins_jobs_id: 
+  slaves_id: 

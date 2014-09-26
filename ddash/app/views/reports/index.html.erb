@@ -3,18 +3,14 @@
 <% @gerrit_projects.each do |report| %>
   <tr>
     <td><%= report %></td>
+    <BR>
   </tr>
 <% end %>
 
 <h1> Jenkins Job status </h1>
- 
-<% @jenkins_masters.each do |master| %>
+<% @all_status.each do |element, value| %>
   <tr>
-    <td><%= master.split(/:/)[0] %></td>
-  </tr>
-<% end %>
-<% @all_status.each do |status| %>
-  <tr>
-    <td><%= status %></td>
+    <td><%= "#{element} #{value}" %></td>
+    <BR>
   </tr>
 <% end %>

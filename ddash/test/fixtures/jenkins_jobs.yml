@@ -2,8 +2,8 @@
 
 one:
   name: MyString
-  type: 
+  builds_id: 
 
 two:
   name: MyString
-  type: 
+  builds_id: 

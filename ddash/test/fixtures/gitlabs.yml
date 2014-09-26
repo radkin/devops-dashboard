@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  git_id: 
+  mr: 1
+  shas: MyString
+
+two:
+  git_id: 
+  mr: 1
+  shas: MyString

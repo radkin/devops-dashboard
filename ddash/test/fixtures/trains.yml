@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  git_commit: MyString
+  jenkins_id: 
+  svn_id: 
+  git_id: 
+  gerrit_id: 
+  gitlab_id: 
+  jira_id: 
+  depart: 2014-09-26 14:24:03
+  arrive: 2014-09-26 14:24:03
+  train_route_id: 
+
+two:
+  git_commit: MyString
+  jenkins_id: 
+  svn_id: 
+  git_id: 
+  gerrit_id: 
+  gitlab_id: 
+  jira_id: 
+  depart: 2014-09-26 14:24:03
+  arrive: 2014-09-26 14:24:03
+  train_route_id: 
