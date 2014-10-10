@@ -1,11 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  masters_id: 
-  jenkins_jobs_id: 
-  slaves_id: 
+  master_url: MyString
+  successful_jobs: 1
+  failed_jobs: 1
 
 two:
-  masters_id: 
-  jenkins_jobs_id: 
-  slaves_id: 
+  master_url: MyString
+  successful_jobs: 1
+  failed_jobs: 1

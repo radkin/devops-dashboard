@@ -35,15 +35,13 @@ class Reporter
   end
   # Jenkins jobs status report
   def jobs_status
-    jenkins_user                    = ENV['JENKINS_USER']
-    jenkins_pass                    = ENV['JENKINS_PASS']
+    kaboose                        = "/api/json"
     @red                            = 0
     @blue                           = 0
     jenkins_lexicon                 = JenkinsDoorman.new
     jenkins_lexicon.jenkins_params  = [
-      "#{jenkins_user}",
-      "#{jenkins_pass}",
-      "#{@jenkins_url}"
+      "#{@jenkins_url}",
+      "#{kaboose}"
     ]
     proj_objects                    = jenkins_lexicon.door
     proj_objects.each do |object|
@@ -57,6 +55,7 @@ class Reporter
       end
     end
     status = { 'jenkins_url' => "#{@jenkins_url}", 'blue' => "#{@blue}", 'red' => "#{@red}" }
+    puts status
     return status
   end
 end
