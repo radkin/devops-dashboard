@@ -1,10 +1,10 @@
 # Reporter devops-dashboard library that creates reports.
 class Reporter
-  attr_accessor :jenkins_url
+  attr_accessor :jenkins_url, :jenkins_job_name
 
   # custom libs
   require_dependency 'gerrit_doorman'
-  require_dependency 'jenkins_doorman'
+  require_dependency 'jenkins_info'
 
   # Gerrit projects report
   def gerrit_projects
@@ -24,26 +24,17 @@ class Reporter
     end
     return @projects
   end
-  # gather a list of jenkins masters
-  def gen_masters
-    j_masters_str     = ENV['JENKINS_MASTERS']
-    @jenkins_masters  = []
-    j_masters_str.split(/,/).each do |master|
-      @jenkins_masters.push(*master)
-    end
-    return @jenkins_masters
-  end
   # Jenkins jobs status report
   def jobs_status
-    kaboose                        = "/api/json"
+    kaboose                        = "api/json"
     @red                            = 0
     @blue                           = 0
-    jenkins_lexicon                 = JenkinsDoorman.new
+    jenkins_lexicon                 = JenkinsInfo.new
     jenkins_lexicon.jenkins_params  = [
       "#{@jenkins_url}",
       "#{kaboose}"
     ]
-    proj_objects                    = jenkins_lexicon.door
+    proj_objects                    = jenkins_lexicon.go
     proj_objects.each do |object|
       object.each do |attributes|
         if attributes.is_a?(Array) && attributes.count > 1
@@ -57,5 +48,13 @@ class Reporter
     status = { 'jenkins_url' => "#{@jenkins_url}", 'blue' => "#{@blue}", 'red' => "#{@red}" }
     puts status
     return status
+  end
+  def job_details
+    kaboose = "job/#{@jenkins_job_name}/api/json?tree=builds[*]"
+    jenkins_lexicon.jenkins_params  = [
+      "#{@jenkins_url}",
+      "#{kaboose}"
+    ]
+    job_detail_obj = jenkins_lexicon.go
   end
 end

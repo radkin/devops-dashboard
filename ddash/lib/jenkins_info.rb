@@ -1,5 +1,5 @@
-# devops-dashboard library that opens doors to the Jenkins API.
-class JenkinsDoorman
+# devops-dashboard library that provide info about Jenkins via JSON REST API.
+class JenkinsInfo
   attr_accessor :jenkins_params
 
   require 'uri'
@@ -7,7 +7,7 @@ class JenkinsDoorman
   require 'json'
 
   # door, standard request, nothing fancy, requires no special information
-  def door
+  def go
     jenkins_user      = ENV['JENKINS_USER']
     jenkins_pass      = ENV['JENKINS_PASS']
     jenkins_url       = @jenkins_params[0]
