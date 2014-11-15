@@ -1,6 +1,6 @@
 # JenkinsJobObjects library that gethers jobs objects.
 class JenkinsJobsObjects
-  attr_accessor :jenkins_url
+  attr_accessor :jenkins_params
 
   # custom libs
   require_dependency 'jenkins_info'
@@ -10,10 +10,7 @@ class JenkinsJobsObjects
     @jobs_objects                   = Array.new
     kaboose                         = "api/json"
     jenkins_lexicon                 = JenkinsInfo.new
-    jenkins_lexicon.jenkins_params  = [
-      "#{@jenkins_url}",
-      "#{kaboose}"
-    ]
+    jenkins_lexicon.jenkins_params  = @jenkins_params
     proj_objects                    = jenkins_lexicon.go
     proj_objects.each do |object|
       object.each do |attributes|
