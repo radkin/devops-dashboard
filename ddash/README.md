@@ -14,3 +14,8 @@ http://naleid.com/blog/2011/03/05/running-redis-as-a-user-daemon-on-osx-with-lau
 * startmysql
 * startredis
 * rails server
+
+0. When the whole thing is running you can look over your resque status by going to this URL
+http://localhost:3000/resque/
+0. you can add the sleep job by running this command
+bundle exec rake environment resque:work QUEUE=sleep
