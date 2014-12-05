@@ -1,8 +1,10 @@
 class ReportsController < ApplicationController
+  require 'resque'
   require_dependency 'reporter'
   require_dependency 'jenkins_masters'
   require_dependency 'jenkins_jobs_objects'
   def index
+    Resque.enqueue(Sleeper, 5)
     @all_status       = []
     kaboose           = "api/json"
     gen_report        = Reporter.new
