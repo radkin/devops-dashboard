@@ -11,8 +11,8 @@ http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html
 http://naleid.com/blog/2011/03/05/running-redis-as-a-user-daemon-on-osx-with-launchd
 0. order of operation:
 
-* startmysql
-* startredis
+* mysqlstart
+* redisstart
 * rails server
 
 0. When the whole thing is running you can look over your resque status by going to this URL

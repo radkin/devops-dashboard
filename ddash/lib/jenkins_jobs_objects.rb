@@ -1,4 +1,4 @@
-# JenkinsJobObjects library that gethers jobs objects.
+# JenkinsJobObjects library that gathers jobs objects.
 class JenkinsJobsObjects
   attr_accessor :jenkins_params
 
