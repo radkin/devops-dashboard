@@ -1,0 +1,7 @@
+<h1> Jenkins Job details </h1>
+<% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
+  <tr>
+    <td><%= "#{master.split(/:/)[0]}" %></td>
+    <BR>
+  </tr>
+<% end %>
