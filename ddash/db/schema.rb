@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140926231634) do
+ActiveRecord::Schema.define(version: 20150102191846) do
 
-  create_table "jenkins", force: true do |t|
-    t.string   "master_url"
-    t.integer  "successful_jobs"
-    t.integer  "failed_jobs"
+  create_table "jenkins_hellos", force: true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.string   "color"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -42,3 +42,5 @@ gem 'spring',        group: :development
 # for custom libs
 gem 'net-http-digest_auth'
 gem 'json'
+gem 'redis'
+gem 'resque-scheduler'

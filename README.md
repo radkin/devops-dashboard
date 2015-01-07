@@ -56,5 +56,9 @@ Run
 
 ## ToDo
 
-* Add Jenkins report support
-* Add more reports to Gerrit reporting
+[ ] (high level) add jenkins_jobs jobs drill down.
+[ ] create jenkins_jobs controller that pulls a list of all the mysql data on a particular Jenkins server in a manner like this
+SELECT * from jenkins_hellos WHERE name REGEXP 'jenkins hostname';
+[ ] create resque jobs that will gather up to date jenkins job information. 
+[ ] remove the gathering of jenkins hello data from the jenkins_hello index 
+[ ] remove the jenkins color data from the jenkins_hello index and put it in another MVC
