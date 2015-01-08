@@ -1,5 +1,5 @@
 <h1> Jenkins Job details </h1>
-<%= image_tag(@pie_chart) %>
+<%= image_tag(@total_job_status_pie_chart) %>
 <% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
   <tr>
     <h2><%= "#{master.split(/:/)[0]}" %></h2>
