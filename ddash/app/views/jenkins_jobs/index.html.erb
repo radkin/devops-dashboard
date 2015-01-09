@@ -3,7 +3,11 @@
 <% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
   <tr>
     <h2><%= "#{master.split(/:/)[0]}" %></h2>
-    </tr>
+    <td><% @masters_jobs.each do |job| %>td>
+        <td><%=  job.master %></td>
+      <% end %>
+  </tr>
+<!--
     <h3> Red Jobs </h3>
     <td><%= @red_jobs.each do |job| %></td>
       <% if master.split(/\//)[0] == job.url.split(/\//)[2] %>
@@ -18,4 +22,5 @@
         <BR>
       <% end %>
     <% end %>
+-->
 <% end %>
