@@ -10,12 +10,20 @@ class JenkinsJobsController < ApplicationController
     @notbuilt_jobs  = JenkinsHello.by_color_notbuilt.uniq_job
     @aborted_jobs   = JenkinsHello.by_color_aborted.uniq_job
     # jobs by master
-    @masters_jobs = Hash.new
+    @masters_jobs   = Hash.new
+    @masters_counts = Array.new
+    @masters_names  = Array.new
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
       @masters_jobs[master] = JenkinsHello.by_master(master)
+      job_num = JenkinsHello.by_master(master).count
+      @masters_counts.push(job_num)
+      @masters_names.push(master)
     end
-    # charts
+    #### charts
+    # Total Jobs by status
     @total_job_status_pie_chart = Gchart.pie(:data => [@red_jobs.count,@blue_jobs.count,@yellow_jobs.count,@grey_jobs.count,@disabled_jobs.count,@notbuilt_jobs.count,@aborted_jobs.count], :title => 'Total job status', :size => '600x300', :labels =>     ['red','blue','yellow','grey','disabled','not built','aborted'])
+    # Jobs by Jenkins Master
+    @jobs_by_jenkins_master_chart = Gchart.pie(:data => @masters_counts, :title => 'Jobs by Jenkins Master', :size => '600x300', :labels =>     @masters_names)
     #@total_jobs_by_jenkins_master = Gchart.bar(:data => [[
   end
 end
