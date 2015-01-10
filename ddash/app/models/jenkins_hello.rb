@@ -12,9 +12,5 @@ class JenkinsHello < ActiveRecord::Base
   # this doesn't work because datetime has the time of day while this is looking for date only.
   #scope :today, lambda { where(created_at: Date.today) }
   scope :uniq_job, lambda { select(:name, :url).uniq }
-  # jenkins master specific scopes
-  @masters_scope = Hash.new
-  Ddash::Application.config.JENKINS_MASTERS.each do |master|
-    scope :by_master, -> { where(master: "#{master}") }
-  end
+  scope :by_master, ->(master) { where("master = ?", master) }
 end

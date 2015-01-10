@@ -3,7 +3,7 @@
 <% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
   <tr>
     <h2><%= "#{master.split(/:/)[0]}" %></h2>
-    <td><% @masters_jobs.each do |job| %>td>
+    <td><% @masters_jobs[master].each do |job| %>td>
         <td><%=  job.master %></td>
       <% end %>
   </tr>
