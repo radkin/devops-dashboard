@@ -16,6 +16,7 @@ class JenkinsHelloController < ApplicationController
       jobs_objects                    = gen_objects.gather
       # save to DB
       jobs_objects.each do |jo|
+        jo[:master] = "#{jenkins_master}"
         @this_hello = JenkinsHello.new(jo)
         @this_hello.save
       end
