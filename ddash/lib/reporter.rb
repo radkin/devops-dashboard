@@ -23,18 +23,6 @@ class Reporter
     end
     return @projects
   end
-  # Jenkins jobs status report
-  def jobs_status
-    @blue = 0
-    @red  = 0
-    @jenkins_jobs_objects.each do |line|
-      @red += 1 if line['color'] == 'red'
-      @blue += 1 if line['color'] == 'blue'
-      @jenkins_url = line['url'].split("/")[2]
-    end
-    status = { 'jenkins_url' => "#{@jenkins_url}", 'blue' => "#{@blue}", 'red' => "#{@red}" }
-    return status
-  end
 =begin
   def job_details
     kaboose = "job/#{@jenkins_job_name}/api/json?tree=builds[*]"

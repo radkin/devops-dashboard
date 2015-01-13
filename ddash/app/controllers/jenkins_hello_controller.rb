@@ -20,10 +20,6 @@ class JenkinsHelloController < ApplicationController
         @this_hello = JenkinsHello.new(jo)
         @this_hello.save
       end
-      # generate the report
-      gen_report.jenkins_jobs_objects = jobs_objects
-      status                          = gen_report.jobs_status
-      @all_status.push(*status)
     end
   end
   def show
