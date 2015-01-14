@@ -1,8 +1,36 @@
-<h1> Gerrit Projects </h1>
- 
-<% @gerrit_projects.each do |report| %>
+<h1> Jenkins Job details </h1>
+<%= image_tag(@total_job_status_pie_chart) %>
+<%= image_tag(@jobs_by_jenkins_master_chart) %>
+<BR>
+<%= image_tag(@aborted_jobs_by_jenkins_master_chart) %>
+<%= image_tag(@red_jobs_by_jenkins_master_chart) %>
+<BR>
+<%= image_tag(@blue_jobs_by_jenkins_master_chart) %>
+
+<h1>Create/Add Jenkins Data</h1>
+<%= button_to "create", :action => "create" %>
+
+<!--
+<% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
   <tr>
-    <td><%= report %></td>
-    <BR>
+    <h2><%= "#{master.split(/:/)[0]}" %></h2>
+    <td><% @masters_jobs[master].each do |job| %>td>
+        <td><%=  job.master %></td>
+      <% end %>
   </tr>
+    <h3> Red Jobs </h3>
+    <td><%= @red_jobs.each do |job| %></td>
+      <% if master.split(/\//)[0] == job.url.split(/\//)[2] %>
+        <td><%=  job.name %></td>
+        <BR>
+      <% end %>
+    <% end %>
+    <h3> Blue Jobs </h3>
+    <td><%= @blue_jobs.each do |job| %></td>
+      <% if master.split(/\//)[0] == job.url.split(/\//)[2] %>
+        <td><%=  job.name %></td>
+        <BR>
+      <% end %>
+    <% end %>
 <% end %>
+-->
