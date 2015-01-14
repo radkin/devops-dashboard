@@ -1,39 +1,52 @@
 class JenkinsJobsController < ApplicationController
+  require 'resque'
   require 'googlecharts'
+  require_dependency 'jenkins_jobs_objects'
   def index
     # jobs
-    @red_jobs       = JenkinsHello.by_color_red.uniq_job
-    @blue_jobs      = JenkinsHello.by_color_blue.uniq_job
-    @yellow_jobs    = JenkinsHello.by_color_yellow.uniq_job
-    @grey_jobs      = JenkinsHello.by_color_grey.uniq_job
-    @disabled_jobs  = JenkinsHello.by_color_disabled.uniq_job
-    @notbuilt_jobs  = JenkinsHello.by_color_notbuilt.uniq_job
-    @aborted_jobs   = JenkinsHello.by_color_aborted.uniq_job
-    # jobs by master
     @masters_jobs       = Hash.new
-    @masters_counts     = Array.new
-    @masters_names      = Array.new
-    @masters_aborted    = Array.new
-    @masters_red        = Array.new
-    @masters_blue       = Array.new
+    @masters_red        = Hash.new
+    @masters_blue       = Hash.new
+    @masters_yellow     = Hash.new
+    @masters_grey       = Hash.new
+    @masters_disabled   = Hash.new
+    @masters_notbuilt   = Hash.new
+    @masters_aborted    = Hash.new
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @masters_jobs[master] = JenkinsHello.by_master(master)
-      @masters_names.push(master)
-      @masters_counts.push(JenkinsHello.by_master(master).count)
-      @masters_aborted.push(JenkinsHello.by_master(master).by_color_aborted.count)
-      @masters_red.push(JenkinsHello.by_master(master).by_color_red.count)
-      @masters_blue.push(JenkinsHello.by_master(master).by_color_blue.count)
+      @masters_jobs[master]       = JenkinsHello.by_master(master)
+      @masters_red[master]        = JenkinsHello.by_master(master).by_color_red
+      @masters_blue[master]       = JenkinsHello.by_master(master).by_color_blue
+      @masters_yellow[master]     = JenkinsHello.by_master(master).by_color_yellow
+      @masters_grey[master]       = JenkinsHello.by_master(master).by_color_grey
+      @masters_disabled[master]   = JenkinsHello.by_master(master).by_color_disabled
+      @masters_notbuilt[master]   = JenkinsHello.by_master(master).by_color_notbuilt
+      @masters_aborted[master]    = JenkinsHello.by_master(master).by_color_aborted
     end
     #### charts
-    # Total Jobs by status
-    @total_job_status_pie_chart = Gchart.pie_3d(:data => [@red_jobs.count,@blue_jobs.count,@yellow_jobs.count,@grey_jobs.count,@disabled_jobs.count,@notbuilt_jobs.count,@aborted_jobs.count], :title => 'Total job status', :size => '600x300', :labels =>     ['red','blue','yellow','grey','disabled','not built','aborted'])
-    # Jobs by Jenkins Master
-    @jobs_by_jenkins_master_chart = Gchart.pie(:data => @masters_counts, :title => 'Jobs by Jenkins Master', :size => '600x300', :labels =>     @masters_names)
-    # Failed Jobs by Jenkins Master
-    @aborted_jobs_by_jenkins_master_chart = Gchart.pie(:data => @masters_aborted, :title => 'Aborted Jobs by Jenkins Master', :size => '600x300', :labels =>     @masters_names)
-    # red Jobs by Jenkins Master
-    @red_jobs_by_jenkins_master_chart = Gchart.pie(:data => @masters_red, :title => 'Red Jobs by Jenkins Master', :size => '600x300', :labels =>     @masters_names)
-    # blue Jobs by Jenkins Master
-    @blue_jobs_by_jenkins_master_chart = Gchart.pie(:data => @masters_blue, :title => 'Blue Jobs by Jenkins Master', :size => '600x300', :labels =>     @masters_names)
+    # by master Job status
+    @by_master_job_status_pie_chart = Hash.new
+    Ddash::Application.config.JENKINS_MASTERS.each do |master| 
+      @by_master_job_status_pie_chart[master] = Gchart.pie_3d(:data => [@masters_red[master].count,@masters_blue[master].count,@masters_yellow[master].count,@masters_grey[master].count,@masters_disabled[master].count,@masters_notbuilt[master].count,@masters_aborted[master].count], :title => "#{master} job status", :size => '600x300', :labels =>     ['red','blue','yellow','grey','disabled','not built','aborted'])
+    end
   end
-end
+  def create
+    @all_status       = []
+    kaboose           = "api/json"
+    gen_objects       = JenkinsJobsObjects.new
+    Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|
+      @masters_jobs[jenkins_master].each do |job|
+        gen_objects.jenkins_params = [
+          "#{job.url}",
+          "#{kaboose}"
+        ]
+        jobs_objects                    = gen_objects.gather
+        # save to DB
+        jobs_objects.each do |jo|
+          jo[:master] = "#{jenkins_master}"
+          @this_job = JenkinsJobs.new(jo)
+          @this_job.save
+        end
+      end
+    end
+  end
+end # end class
