@@ -6,7 +6,7 @@ class JenkinsInfo
   require 'net/http'
   require 'json'
 
-  # door, standard request, nothing fancy, requires no special information
+  # standard request, nothing fancy, requires no special information
   def go
     sleep_period      = 20
     tried             = false

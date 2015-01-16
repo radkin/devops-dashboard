@@ -1,7 +1,6 @@
 # JenkinsJobObjects library that gathers jobs objects.
 class JenkinsJobsObjects
   attr_accessor :jenkins_params
-
   # custom libs
   require_dependency 'jenkins_info'
 
@@ -15,9 +14,7 @@ class JenkinsJobsObjects
     proj_objects.each do |object|
       object.each do |attributes|
         next unless attributes.is_a?(Array) && attributes.count > 1
-        attributes.each do |line|
-          @jobs_objects.push(line)
-        end
+        attributes.each { |line| @jobs_objects.push(line) }
       end
     end
     return @jobs_objects
