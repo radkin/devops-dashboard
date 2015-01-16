@@ -1,3 +1,4 @@
+# Jenkins initial page data queries
 class JenkinsHello < ActiveRecord::Base
   scope :by_color_red, -> { where(color: 'red') }
   scope :by_color_blue, -> { where(color: 'blue') }
@@ -9,8 +10,7 @@ class JenkinsHello < ActiveRecord::Base
   scope :by_color_blueanime, -> { where(color: 'blue_anime') }
   scope :by_color_yellowanime, -> { where(color: 'yellow_anime') }
   scope :by_color_null, -> { where(color: 'NULL') }
-  # this doesn't work because datetime has the time of day while this is looking for date only.
-  #scope :today, lambda { where(created_at: Date.today) }
-  scope :uniq_job, lambda { select(:name, :url).uniq }
-  scope :by_master, ->(master) { where("master = ?", master) }
+  # .. doesnt work .. scope :today, -> { where(created_at: Date.today) }
+  scope :uniq_job, -> { select(:name, :url).uniq }
+  scope :by_master, ->(master) { where('master = ?', master) }
 end

@@ -1,3 +1,4 @@
+# Sample sleep class for resque example
 class Sleeper
   @queue = :sleep
 
@@ -5,4 +6,3 @@ class Sleeper
     sleep(seconds)
   end
 end
-

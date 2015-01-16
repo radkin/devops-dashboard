@@ -25,22 +25,22 @@ class JenkinsInfo
     begin
       request           = Net::HTTP::Get.new(uri.request_uri)
       if @user_pass     == true
-        request.basic_auth("#{jenkins_user}", "#{jenkins_pass}") 
+        request.basic_auth("#{jenkins_user}", "#{jenkins_pass}")
       end
       response          = http.request(request)
       app_obj           = JSON.parse(response.body)
-    return app_obj
+      return app_obj
     # if SSL doesn't work, try plain old clear text
-    rescue Errno::ECONNREFUSED => e
+    rescue Errno::ECONNREFUSED
       http.use_ssl      = false
       http              = Net::HTTP.new(uri.host, uri.port)
       request           = Net::HTTP::Get.new(uri.request_uri)
       response          = http.request(request)
       app_obj           = JSON.parse(response.body)
     # retry in case we're just really busy
-    rescue Errno::EHOSTUNREACH => e
+    rescue Errno::EHOSTUNREACH
       sleep(sleep_period)
-      if tried = false then retry end;
+      retry if tried == false
     end
   end
 end

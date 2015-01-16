@@ -23,15 +23,4 @@ class Reporter
     end
     return @projects
   end
-=begin
-  def job_details
-    kaboose = "job/#{@jenkins_job_name}/api/json?tree=builds[*]"
-    jenkins_lexicon.jenkins_params  = [
-      "#{@jenkins_url}",
-      "#{kaboose}"
-    ]
-    job_detail_obj = jenkins_lexicon.go
-  end
-=end
-
 end
