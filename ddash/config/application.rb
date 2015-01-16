@@ -6,6 +6,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module Ddash
+  # Class for the entire application
   class Application < Rails::Application
     config.watchable_dirs['lib'] = [:rb]
     # Settings in config/environments/* take precedence over those specified here.

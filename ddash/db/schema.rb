@@ -13,20 +13,19 @@
 
 ActiveRecord::Schema.define(version: 20150114215257) do
 
-  create_table "jenkins_hellos", force: true do |t|
-    t.string   "name"
-    t.string   "url"
-    t.string   "color"
-    t.datetime "created_at"
-    t.string   "master"
+  create_table 'jenkins_hellos', force: true do |t|
+    t.string   'name'
+    t.string   'url'
+    t.string   'color'
+    t.datetime 'created_at'
+    t.string   'master'
   end
 
-  create_table "jenkins_jobs", force: true do |t|
-    t.string   "name"
-    t.string   "url"
-    t.string   "color"
-    t.datetime "created_at"
-    t.string   "master"
+  create_table 'jenkins_jobs', force: true do |t|
+    t.string   'name'
+    t.string   'url'
+    t.string   'color'
+    t.datetime 'created_at'
+    t.string   'master'
   end
-
 end

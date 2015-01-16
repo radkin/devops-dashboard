@@ -1,17 +1,18 @@
+# Job specific data
 class JenkinsJobsController < ApplicationController
   require 'resque'
   require 'googlecharts'
   require_dependency 'jenkins_jobs_objects'
   def index
     # jobs
-    @masters_jobs       = Hash.new
-    @masters_red        = Hash.new
-    @masters_blue       = Hash.new
-    @masters_yellow     = Hash.new
-    @masters_grey       = Hash.new
-    @masters_disabled   = Hash.new
-    @masters_notbuilt   = Hash.new
-    @masters_aborted    = Hash.new
+    @masters_jobs       = {}
+    @masters_red        = {}
+    @masters_blue       = {}
+    @masters_yellow     = {}
+    @masters_grey       = {}
+    @masters_disabled   = {}
+    @masters_notbuilt   = {}
+    @masters_aborted    = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
       @masters_jobs[master]       = JenkinsHello.by_master(master)
       @masters_red[master]        = JenkinsHello.by_master(master).by_color_red
@@ -24,14 +25,15 @@ class JenkinsJobsController < ApplicationController
     end
     #### charts
     # by master Job status
-    @by_master_job_status_pie_chart = Hash.new
-    Ddash::Application.config.JENKINS_MASTERS.each do |master| 
-      @by_master_job_status_pie_chart[master] = Gchart.pie_3d(:data => [@masters_red[master].count,@masters_blue[master].count,@masters_yellow[master].count,@masters_grey[master].count,@masters_disabled[master].count,@masters_notbuilt[master].count,@masters_aborted[master].count], :title => "#{master} job status", :size => '600x300', :labels =>     ['red','blue','yellow','grey','disabled','not built','aborted'])
+    @by_master_job_status_pie_chart = {}
+    Ddash::Application.config.JENKINS_MASTERS.each do |master|
+      @by_master_job_status_pie_chart[master] = Gchart.pie_3d(data: [@masters_red[master].count, @masters_blue[master].count, @masters_yellow[master].count, @masters_grey[master].count, @masters_disabled[master].count, @masters_notbuilt[master].count, @masters_aborted[master].count], title: "#{master} job status", size: '600x300', labels:     ['red', 'blue', 'yellow', 'grey', 'disabled', 'not built', 'aborted'])
     end
   end
+
   def create
     @all_status       = []
-    kaboose           = "api/json"
+    kaboose           = 'api/json'
     gen_objects       = JenkinsJobsObjects.new
     Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|
       @masters_jobs[jenkins_master].each do |job|
