@@ -4,14 +4,6 @@ class JenkinsHelloController < ApplicationController
   require 'googlecharts'
   require_dependency 'jenkins_jobs_objects'
   def index
-    # jobs
-    @red_jobs       = JenkinsHello.by_color_red.uniq_job
-    @blue_jobs      = JenkinsHello.by_color_blue.uniq_job
-    @yellow_jobs    = JenkinsHello.by_color_yellow.uniq_job
-    @grey_jobs      = JenkinsHello.by_color_grey.uniq_job
-    @disabled_jobs  = JenkinsHello.by_color_disabled.uniq_job
-    @notbuilt_jobs  = JenkinsHello.by_color_notbuilt.uniq_job
-    @aborted_jobs   = JenkinsHello.by_color_aborted.uniq_job
     # jobs by master
     @masters_jobs       = {}
     @masters_counts     = []
@@ -31,13 +23,13 @@ class JenkinsHelloController < ApplicationController
     # Total Jobs by status
     @total_job_status_pie_chart = Gchart.pie_3d(
       data: [
-        @red_jobs.count,
-        @blue_jobs.count,
-        @yellow_jobs.count,
-        @grey_jobs.count,
-        @disabled_jobs.count,
-        @notbuilt_jobs.count,
-        @aborted_jobs.count],
+        JenkinsHello::red_jobs.count,
+        JenkinsHello::blue_jobs.count,
+        JenkinsHello::yellow_jobs.count,
+        JenkinsHello::grey_jobs.count,
+        JenkinsHello::disabled_jobs.count,
+        JenkinsHello::notbuilt_jobs.count,
+        JenkinsHello::aborted_jobs.count],
       title: 'Total job status',
       size: '600x300',
       labels: [
