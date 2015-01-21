@@ -34,4 +34,16 @@ class JenkinsHello < ActiveRecord::Base
   def self.aborted_jobs
     by_color_aborted.uniq_job
   end
+  def self.masters_jobs
+    @masters_jobs = {}
+    Ddash::Application.config.JENKINS_MASTERS.each do |master|
+      @masters_jobs[master] = by_master(master)
+    end
+  end
+  def self.masters_names
+    @masters_names = []
+    Ddash::Application.config.JENKINS_MASTERS.each do |master|
+      @masters_names.push(master)
+    end
+  end
 end

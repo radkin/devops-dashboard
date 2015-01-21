@@ -5,15 +5,11 @@ class JenkinsHelloController < ApplicationController
   require_dependency 'jenkins_jobs_objects'
   def index
     # jobs by master
-    @masters_jobs       = {}
     @masters_counts     = []
-    @masters_names      = []
     @masters_aborted    = []
     @masters_red        = []
     @masters_blue       = []
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @masters_jobs[master] = JenkinsHello.by_master(master)
-      @masters_names.push(master)
       @masters_counts.push(JenkinsHello.by_master(master).count)
       @masters_aborted.push(JenkinsHello.by_master(master).by_color_aborted.count)
       @masters_red.push(JenkinsHello.by_master(master).by_color_red.count)
@@ -45,25 +41,25 @@ class JenkinsHelloController < ApplicationController
       data: @masters_counts,
       title: 'Jobs by Jenkins Master',
       size: '600x300',
-      labels:     @masters_names)
+      labels:     JenkinsHello::masters_names)
     # Failed Jobs by Jenkins Master
     @aborted_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_aborted,
       title: 'Aborted Jobs by Jenkins Master',
       size: '600x300',
-      labels:     @masters_names)
+      labels:     JenkinsHello::masters_names)
     # red Jobs by Jenkins Master
     @red_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_red,
       title: 'Red Jobs by Jenkins Master',
       size: '600x300',
-      labels:     @masters_names)
+      labels:     JenkinsHello::masters_names)
     # blue Jobs by Jenkins Master
     @blue_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_blue,
       title: 'Blue Jobs by Jenkins Master',
       size: '600x300',
-      labels:     @masters_names)
+      labels:     JenkinsHello::masters_names)
   end
 
   def create
