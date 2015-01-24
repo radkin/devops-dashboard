@@ -1,5 +1,6 @@
 # Jenkins initial page data queries
 class JenkinsHello < ActiveRecord::Base
+  scope :url, -> { select(:url) }
   scope :by_color_red, -> { where(color: 'red') }
   scope :by_color_blue, -> { where(color: 'blue') }
   scope :by_color_yellow, -> { where(color: 'yellow') }
@@ -33,12 +34,6 @@ class JenkinsHello < ActiveRecord::Base
   end
   def self.aborted_jobs
     by_color_aborted.uniq_job
-  end
-  def self.masters_jobs
-    @masters_jobs = {}
-    Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @masters_jobs[master] = by_master(master)
-    end
   end
   def self.masters_names
     @masters_names = []

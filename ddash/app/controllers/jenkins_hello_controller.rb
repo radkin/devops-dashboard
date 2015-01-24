@@ -63,7 +63,6 @@ class JenkinsHelloController < ApplicationController
   end
 
   def create
-    @all_status       = []
     kaboose           = 'api/json'
     gen_objects       = JenkinsJobsObjects.new
     Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|

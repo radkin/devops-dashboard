@@ -5,7 +5,6 @@ class JenkinsJobsController < ApplicationController
   require_dependency 'jenkins_jobs_objects'
   def index
     # jobs
-    @masters_jobs       = {}
     @masters_red        = {}
     @masters_blue       = {}
     @masters_yellow     = {}
@@ -14,7 +13,6 @@ class JenkinsJobsController < ApplicationController
     @masters_notbuilt   = {}
     @masters_aborted    = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @masters_jobs[master]       = JenkinsHello.by_master(master)
       @masters_red[master]        = JenkinsHello.by_master(master).by_color_red
       @masters_blue[master]       = JenkinsHello.by_master(master).by_color_blue
       @masters_yellow[master]     = JenkinsHello.by_master(master).by_color_yellow
@@ -32,23 +30,29 @@ class JenkinsJobsController < ApplicationController
   end
 
   def create
-    @all_status       = []
     kaboose           = 'api/json'
     gen_objects       = JenkinsJobsObjects.new
     Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|
-      @masters_jobs[jenkins_master].each do |job|
-        gen_objects.jenkins_params = [
-          "#{job.url}",
-          "#{kaboose}"
-        ]
-        jobs_objects                    = gen_objects.gather
-        # save to DB
-        jobs_objects.each do |jo|
-          jo[:master] = "#{jenkins_master}"
-          @this_job = JenkinsJobs.new(jo)
-          @this_job.save
+      #puts JenkinsJobs::masters_urls[jenkins_master].inspect
+      url_objs = JenkinsJobs::masters_urls[jenkins_master]
+      if url_objs.present? 
+        url_objs.each do |url_obj|
+          #puts url_obj.inspect
+          gen_objects.jenkins_params = [
+            "#{url_obj.url}",
+            "#{kaboose}"
+          ]
+          jobs_objects                    = gen_objects.gather
+          #puts jobs_objects.inspect
+          # save to DB
+          jobs_objects.each do |jo|
+            puts jo.inspect
+            #jo[:master] = "#{jenkins_master}"
+            #@this_job = JenkinsJobs.new(jo)
+            #@this_job.save
+          end
         end
       end
     end
   end
-end # end class
+end 
