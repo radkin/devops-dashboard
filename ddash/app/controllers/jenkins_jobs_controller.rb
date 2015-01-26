@@ -43,6 +43,8 @@ class JenkinsJobsController < ApplicationController
             "#{kaboose}"
           ]
           jobs_objects                    = gen_objects.gather
+          # this could be viewed as a DOS attack without sleep
+          sleep 2
           #puts jobs_objects.inspect
           # save to DB
           jobs_objects.each do |jo|
