@@ -48,10 +48,14 @@ class JenkinsJobsController < ApplicationController
           #puts jobs_objects.inspect
           # save to DB
           jobs_objects.each do |jo|
-            puts jo.inspect
-            #jo[:master] = "#{jenkins_master}"
-            #@this_job = JenkinsJobs.new(jo)
-            #@this_job.save
+            #puts "---------------------------- Job Object from #{jenkins_master} ----------------------------"
+            #puts jo.inspect
+            # for now, we will only collect number, url & master
+            if jo.present? && jo.has_key?('number') 
+              jo[:master] = "#{jenkins_master}"
+              @this_job = JenkinsJobs.new(jo)
+              @this_job.save
+            end
           end
         end
       end

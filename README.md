@@ -70,7 +70,7 @@ rails server
 
 The data is getting pulled but we can't push it into the DB because there is a wide variety of fields and only handling for 1 type of field at the moment. The fields are as follows:
 
-* number (build), url
+* (Vast Majority) number (build), url
 * name (job), url, color
 * nil
 * empty hash
