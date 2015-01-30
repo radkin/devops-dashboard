@@ -3,7 +3,7 @@ class JenkinsJobs < ActiveRecord::Base
     @urls = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
       @urls[master] = JenkinsHello::by_master(master).url
-      return @urls
     end
+    return @urls
   end
 end
