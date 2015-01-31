@@ -1,6 +1,6 @@
 # devops-dashboard library that provide info about Jenkins via JSON REST API.
 class JenkinsInfo
-  attr_accessor :jenkins_params
+  attr_accessor :jenkins_params, :uri, :http_conn
 
   require 'uri'
   require 'net/http'
@@ -19,7 +19,7 @@ class JenkinsInfo
     end
     begin
       jenkins_url       = @jenkins_params[0]
-      @uri               = URI.parse "#{jenkins_url}#{@jenkins_params[1]}"
+      @uri              = URI.parse "#{jenkins_url}#{@jenkins_params[1]}"
       go_ssl
     # if SSL doesn't work, try plain old clear text
     rescue Errno::ECONNREFUSED
@@ -33,21 +33,30 @@ class JenkinsInfo
 
   # standard http connector
   def go_clear
-      http              = Net::HTTP.new(@uri.host, @uri.port)
-      http.use_ssl      = false
-      request           = Net::HTTP::Get.new(@uri.request_uri)
-      response          = http.request(request)
-      app_obj           = JSON.parse(response.body)
+    http              = Net::HTTP.new(@uri.host, @uri.port)
+    http.use_ssl      = false
+    my                = JenkinsInfo.new
+    my.uri            = @uri
+    my.http_conn      = http
+    app_obj           = my.connector_common
     return app_obj
   end
 
   # https connector
   def go_ssl
-    http              = Net::HTTP.new(@uri.host, 443)
-    http.use_ssl      = true
-    http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
+    http             = Net::HTTP.new(@uri.host, 443)
+    http.use_ssl     = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    my               = JenkinsInfo.new
+    my.uri           = @uri
+    my.http_conn     = http
+    app_obj          = my.connector_common
+    return app_obj
+  end
+
+  def connector_common
     request           = Net::HTTP::Get.new(@uri.request_uri)
-    response          = http.request(request)
+    response          = @http_conn.request(request)
     app_obj           = JSON.parse(response.body)
     return app_obj
   end
