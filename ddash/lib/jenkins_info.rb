@@ -1,6 +1,6 @@
 # devops-dashboard library that provide info about Jenkins via JSON REST API.
 class JenkinsInfo
-  attr_accessor :jenkins_params, :uri, :http_conn
+  attr_accessor :jenkins_params, :uri, :http_conn, :jenkins_url
 
   require 'uri'
   require 'net/http'
@@ -18,10 +18,9 @@ class JenkinsInfo
       @user_pass        = true
     end
     begin
-      jenkins_url       = @jenkins_params[0]
-      @uri              = URI.parse "#{jenkins_url}#{@jenkins_params[1]}"
+      @uri              = URI.parse "#{@jenkins_url}#{@jenkins_params[1]}"
       go_ssl
-    # if SSL doesn't work, try plain old clear text
+      # if SSL doesn't work, try plain old clear text
     rescue Errno::ECONNREFUSED
       go_clear
       # retry in case we're just really busy
@@ -54,10 +53,25 @@ class JenkinsInfo
     return app_obj
   end
 
+  # common elements for connections
   def connector_common
     request           = Net::HTTP::Get.new(@uri.request_uri)
     response          = @http_conn.request(request)
-    app_obj           = JSON.parse(response.body)
-    return app_obj
+    if response.kind_of? Net::HTTPRedirection
+      puts "handing redirect response"
+      uri_string        = response['location'] if response['location']
+      # try again using the new url_string
+      conn                = JenkinsInfo.new
+      conn.jenkins_url    = uri_string
+      conn.jenkins_params = ""
+      puts uri_string
+      conn.go
+    elsif response.kind_of? Net::HTTPClientError || Net::HTTPInternalServerError
+      puts "client or server error"
+      return false
+    else
+      app_obj           = JSON.parse(response.body)
+      return app_obj
+    end
   end
 end

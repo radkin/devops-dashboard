@@ -32,8 +32,7 @@ class JenkinsJobsController < ApplicationController
   def create
     kaboose           = 'api/json'
     gen_objects       = JenkinsJobsObjects.new
-    #Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|
-      jenkins_master = "ci.projectblacklight.org/jenkins/"
+    Ddash::Application.config.JENKINS_MASTERS.each do |jenkins_master|
       puts JenkinsJobs::masters_urls[jenkins_master].inspect
       url_objs = JenkinsJobs::masters_urls[jenkins_master]
       if url_objs.present? 
@@ -45,23 +44,27 @@ class JenkinsJobsController < ApplicationController
               "#{kaboose}"
             ]
             jobs_objects                    = gen_objects.gather
-            # this could be viewed as a DOS attack without sleep
-            sleep 2
-            #puts jobs_objects.inspect
-            # save to DB
-            jobs_objects.each do |jo|
-              #puts "---------------------------- Job Object from #{jenkins_master} ----------------------------"
-              #puts jo.inspect
-              # for now, we will only collect number, url & master
-              if jo.present? && jo.has_key?('number') 
-                jo[:master] = "#{jenkins_master}"
-                @this_job = JenkinsJobs.new(jo)
-                @this_job.save
+            if jobs_objects != false
+              # this could be viewed as a DOS attack without sleep
+              sleep 2
+              #puts jobs_objects.inspect
+              # save to DB
+              jobs_objects.each do |jo|
+                #puts "---------------------------- Job Object from #{jenkins_master} ----------------------------"
+                #puts jo.inspect
+                # for now, we will only collect number, url & master
+                if jo.present? && jo.has_key?('number') 
+                  jo[:master] = "#{jenkins_master}"
+                  @this_job = JenkinsJobs.new(jo)
+                  @this_job.save
+                end
               end
+            else
+              puts "failed to gather jobs objects"
             end
           end
         end
       end
-    #end
+    end
   end
 end 
