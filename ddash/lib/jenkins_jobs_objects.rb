@@ -10,13 +10,18 @@ class JenkinsJobsObjects
     kaboose                         = 'api/json'
     jenkins_lexicon                 = JenkinsInfo.new
     jenkins_lexicon.jenkins_params  = @jenkins_params
+    jenkins_lexicon.jenkins_url     = @jenkins_params[0]
     proj_objects                    = jenkins_lexicon.go
-    proj_objects.each do |object|
-      object.each do |attributes|
-        next unless attributes.is_a?(Array) && attributes.count > 1
-        attributes.each { |line| @jobs_objects.push(line) }
+    if proj_objects != false
+      proj_objects.each do |object|
+        object.each do |attributes|
+          next unless attributes.is_a?(Array) && attributes.count > 1
+          attributes.each { |line| @jobs_objects.push(line) }
+        end
       end
+      return @jobs_objects
+    else 
+      return false
     end
-    return @jobs_objects
   end
 end
