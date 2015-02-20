@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150127231601) do
+ActiveRecord::Schema.define(version: 20150220234438) do
 
   create_table "jenkins_hellos", force: true do |t|
     t.string   "name"
@@ -22,10 +22,11 @@ ActiveRecord::Schema.define(version: 20150127231601) do
   end
 
   create_table "jenkins_jobs", force: true do |t|
-    t.string   "url"
     t.datetime "created_at"
     t.string   "master"
-    t.string   "number"
+    t.string   "name"
+    t.boolean  "buildable",       default: false
+    t.integer  "avg_total_score"
   end
 
 end

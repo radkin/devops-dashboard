@@ -6,8 +6,7 @@ https://ci.jenkins-ci.org/computer/api/json?tree=computer[displayName]
 
 {"computer":[{"displayName":"master"},{"displayName":"celery"},{"displayName":"remote-slave-3"},{"displayName":"remote-slave-6"},{"displayName":"remote-slave-7"},{"displayName":"remote-slave-8"}]}
 
-://ci.jenkins-ci.org/api/json?tree=jobs[name,color,buildable,healthReport[description,score,iconUrl],builds[changeSet[items[msg,user]]]]
-
+https://ci.jenkins-ci.org/api/json?tree=jobs[name,color,buildable,healthReport[description,score,iconUrl],builds[changeSet[items[msg,user]]]]
 This query gives the following things:
 
 The job name and colour, which are self explanatory.
