@@ -1,4 +1,6 @@
 class JenkinsJobs < ActiveRecord::Base
+  scope :buildable, -> { where(buildable: '1') }
+  scope :by_master, ->(master) { where('master = ?', master) }
   def self.masters_urls
     @urls = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|

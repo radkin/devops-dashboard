@@ -1,4 +1,5 @@
 <h1> Jenkins Jobs Status </h1>
+<%= image_tag(@buildable_jobs_jenkins_master_chart) %>
 <% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
   <% end %>
 <h3>Create/Add Jenkins Data</h3>
