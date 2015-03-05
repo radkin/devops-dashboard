@@ -57,6 +57,8 @@ class JenkinsJobsController < ApplicationController
     @by_masters_buildable = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
       @by_masters_buildable[master]   = JenkinsJobs.by_master(master).buildable
+      # stack level too deep. Why? How do I access the list of jobs?
+      #puts JenkinsJobs::jobs[master].inspect
     end
     # calc percent
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
