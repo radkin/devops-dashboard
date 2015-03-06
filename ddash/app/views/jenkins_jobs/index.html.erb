@@ -1,9 +1,7 @@
 <h1> Jenkins Jobs Status </h1>
+<%= image_tag(@buildable_jobs_jenkins_master_chart) %>
 <% Ddash::Application.config.JENKINS_MASTERS.each do |master| %>
-  <tr>
-    <h2><%= "#{master.split(/:/)[0]}" %></h2>
-    <%= image_tag(@by_master_job_status_pie_chart[master]) %>
-    <BR>
+  <%= image_tag(@by_master_job_score_bar_graph[master]) %>
   <% end %>
 <h3>Create/Add Jenkins Data</h3>
 <%= button_to "create ", :action => "create" %>
