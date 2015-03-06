@@ -53,18 +53,33 @@ class JenkinsJobsController < ApplicationController
   end
 
   def index
-    @masters_buildable_percent = []
-    @by_masters_buildable = {}
+    @masters_buildable_percent  = []
+    @by_masters_buildable       = {}
+    @deserial_jobs              = {}
+    @by_masters_jobs            = {}
+    @deserial_avg_score         = {}
+    @by_masters_avg_score       = {}
+    @by_master_job_score_bar_graph = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
       @by_masters_buildable[master]   = JenkinsJobs.by_master(master).buildable
-      # stack level too deep. Why? How do I access the list of jobs?
-      #puts JenkinsJobs::jobs[master].inspect
+      @deserial_avg_score[master]     = JenkinsJobs::by_master(master).avg_total_score.all.to_a.map(&:serializable_hash)
+      @deserial_jobs[master]          = JenkinsJobs::by_master(master).jobs.all.to_a.map(&:serializable_hash)
     end
-    # calc percent
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
+      # calc percent
       percent = (@by_masters_buildable[master].count.to_f / JenkinsJobs::by_master(master).count.to_f) * 100.0
       @masters_buildable_percent.push(percent)
-      puts "(#{@by_masters_buildable[master].count.to_f} / #{JenkinsJobs::by_master(master).count.to_f}) * 100.0 = #{percent} percent buildable"
+      # desreialize jobs queries
+      masters_scores  = []
+      masters_jobs    = []
+      @deserial_avg_score[master].each do |score|
+        masters_scores.push(score["avg_total_score"])
+      end
+      @by_masters_avg_score[master] = masters_scores
+      @deserial_jobs[master].each do |job|
+        masters_jobs.push(job["name"])
+      end
+      @by_masters_jobs[master] = masters_jobs
     end
     # buildable percentage of jobs by master
     @buildable_jobs_jenkins_master_chart = Gchart.pie(
@@ -72,9 +87,17 @@ class JenkinsJobsController < ApplicationController
       title: 'percent buildable jobs by master',
       size: '600x300',
       labels: JenkinsHello::masters_names)
-    #Ddash::Application.config.JENKINS_MASTERS.each do |master|
-    #  @by_master_buildable_pie_chart[master] = Gchart.pie_3d(data: [@by_masters_buildable[master].count, @by_masters_blue[master].count, @by_masters_yellow[master].count, @by_masters_grey[master].count, @by_masters_disabled[master].count, @by_masters_notbuilt[master].count, @by_masters_aborted[master].count], title: "#{master} job status", size: '600x300', labels:     ['red', 'blue', 'yellow', 'grey', 'disabled', 'not built', 'aborted'])
-    #end
+    # by master job score bar graph
+    Ddash::Application.config.JENKINS_MASTERS.each do |master|
+      @by_master_job_score_bar_graph[master] = Gchart.line(
+        data: @by_masters_avg_score[master], 
+        type: 'gradient',
+        angle: 90,
+        size: '600x200',
+        line_colors: 'e62ae5',
+        title: "#{master} avg job scores", 
+        legend:     ['range 0-150'])
+    end
   end
 
 end 
