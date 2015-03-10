@@ -37,13 +37,13 @@ class JenkinsHelloController < ApplicationController
     # Total Jobs by status
     @total_job_status_pie_chart = Gchart.pie_3d(
       data: [
-        JenkinsHello::red_jobs.count,
-        JenkinsHello::blue_jobs.count,
-        JenkinsHello::yellow_jobs.count,
-        JenkinsHello::grey_jobs.count,
-        JenkinsHello::disabled_jobs.count,
-        JenkinsHello::notbuilt_jobs.count,
-        JenkinsHello::aborted_jobs.count],
+        JenkinsHello.red_jobs.count,
+        JenkinsHello.blue_jobs.count,
+        JenkinsHello.yellow_jobs.count,
+        JenkinsHello.grey_jobs.count,
+        JenkinsHello.disabled_jobs.count,
+        JenkinsHello.notbuilt_jobs.count,
+        JenkinsHello.aborted_jobs.count],
       title: 'Total job status',
       size: '600x300',
       labels: [
@@ -59,29 +59,47 @@ class JenkinsHelloController < ApplicationController
       data: @masters_counts,
       title: 'Jobs by Jenkins Master',
       size: '600x300',
-      labels:     JenkinsHello::masters_names)
+      labels:     JenkinsHello.masters_names)
     # Failed Jobs by Jenkins Master
     @aborted_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_aborted,
       title: 'Aborted Jobs by Jenkins Master',
       size: '600x300',
-      labels:     JenkinsHello::masters_names)
+      labels:     JenkinsHello.masters_names)
     # red Jobs by Jenkins Master
     @red_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_red,
       title: 'Red Jobs by Jenkins Master',
       size: '600x300',
-      labels:     JenkinsHello::masters_names)
+      labels:     JenkinsHello.masters_names)
     # blue Jobs by Jenkins Master
     @blue_jobs_by_jenkins_master_chart = Gchart.pie(
       data: @masters_blue,
       title: 'Blue Jobs by Jenkins Master',
       size: '600x300',
-      labels:     JenkinsHello::masters_names)
+      labels:     JenkinsHello.masters_names)
     # by master Job status
     @by_master_job_status_pie_chart = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @by_master_job_status_pie_chart[master] = Gchart.pie_3d(data: [@by_masters_red[master].count, @by_masters_blue[master].count, @by_masters_yellow[master].count, @by_masters_grey[master].count, @by_masters_disabled[master].count, @by_masters_notbuilt[master].count, @by_masters_aborted[master].count], title: "#{master} job status", size: '600x300', labels:     ['red', 'blue', 'yellow', 'grey', 'disabled', 'not built', 'aborted'])
+      @by_master_job_status_pie_chart[master] = Gchart.pie_3d(
+        data: [
+          @by_masters_red[master].count,
+          @by_masters_blue[master].count,
+          @by_masters_yellow[master].count,
+          @by_masters_grey[master].count,
+          @by_masters_disabled[master].count,
+          @by_masters_notbuilt[master].count,
+          @by_masters_aborted[master].count],
+        title: "#{master} job status",
+        size: '600x300',
+        labels:     [
+          'red',
+          'blue',
+          'yellow',
+          'grey',
+          'disabled',
+          'not built',
+          'aborted'])
     end
   end
 
@@ -97,7 +115,7 @@ class JenkinsHelloController < ApplicationController
       jobs_objects                    = gen_objects.gather
       # save to DB
       jobs_objects.each do |jo|
-        if jo["name"].present?
+        if jo['name'].present?
           jo[:master] = "#{jenkins_master}"
           @this_hello = JenkinsHello.new(jo)
           @this_hello.save

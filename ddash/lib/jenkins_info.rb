@@ -38,7 +38,7 @@ class JenkinsInfo
     my.uri            = @uri
     my.http_conn      = http
     app_obj           = my.connector_common
-    return app_obj
+    app_obj
   end
 
   # https connector
@@ -50,24 +50,24 @@ class JenkinsInfo
     my.uri           = @uri
     my.http_conn     = http
     app_obj          = my.connector_common
-    return app_obj
+    app_obj
   end
 
   # common elements for connections
   def connector_common
     request           = Net::HTTP::Get.new(@uri.request_uri)
     response          = @http_conn.request(request)
-    if response.kind_of? Net::HTTPRedirection
-      puts "handing redirect response"
+    if response.is_a? Net::HTTPRedirection
+      puts 'handing redirect response'
       uri_string        = response['location'] if response['location']
       # try again using the new url_string
       conn                = JenkinsInfo.new
       conn.jenkins_url    = uri_string
-      conn.jenkins_params = ""
+      conn.jenkins_params = ''
       puts uri_string
       conn.go
-    elsif response.kind_of? Net::HTTPClientError || Net::HTTPInternalServerError
-      puts "client or server error"
+    elsif response.is_a? Net::HTTPClientError || Net::HTTPInternalServerError
+      puts 'client or server error'
       return false
     else
       app_obj           = JSON.parse(response.body)

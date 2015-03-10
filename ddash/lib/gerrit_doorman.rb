@@ -26,6 +26,6 @@ class GerritDoorman
     clean_step1   = res.body
     clean_step2   = clean_step1.split(")]}'")[1]
     app_obj       = JSON.parse(clean_step2)
-    return app_obj
+    app_obj
   end
 end

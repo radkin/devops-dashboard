@@ -21,6 +21,6 @@ class Reporter
     proj_obj.each do |key, _value|
       @projects.push(*key)
     end
-    return @projects
+    @projects
   end
 end

@@ -20,7 +20,7 @@ class JenkinsJobsObjects
         end
       end
       return @jobs_objects
-    else 
+    else
       return false
     end
   end
