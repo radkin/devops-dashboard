@@ -23,7 +23,9 @@ bundle exec rake environment resque:work QUEUE=sleep
 ## todo
 
 [x] Use some of the Jenkins API REST call examples in ../docs/sample_rest_calls.md
+
 [x] Remove present useless jobs data in jenkins_jobs. Display the useful graphs on the 
 page on jenkins_hellos
+
 [ ] Find a way to access the list of jenkins job names in JenkinsJobs
 [ ] create graphs which list the top five best performing jobs and lowest 5 disappointing jobs
