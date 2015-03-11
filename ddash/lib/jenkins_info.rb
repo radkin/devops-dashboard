@@ -10,13 +10,13 @@ class JenkinsInfo
   def go
     sleep_period      = 20
     tried             = false
-    @user_pass        = false
+    #@user_pass        = false
     # Check to see if we have defined user/pass and use if present
-    if ENV['JENKINS_USER'] && ENV['JENKINS_PASS']
-      jenkins_user      = ENV['JENKINS_USER']
-      jenkins_pass      = ENV['JENKINS_PASS']
-      @user_pass        = true
-    end
+    #if ENV['JENKINS_USER'] && ENV['JENKINS_PASS']
+    #  jenkins_user      = ENV['JENKINS_USER']
+    #  jenkins_pass      = ENV['JENKINS_PASS']
+    #  @user_pass        = true
+    #end
     begin
       @uri              = URI.parse "#{@jenkins_url}#{@jenkins_params[1]}"
       go_ssl

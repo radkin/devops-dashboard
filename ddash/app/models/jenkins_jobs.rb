@@ -1,3 +1,4 @@
+# Jenkins jobs specific data gathering
 class JenkinsJobs < ActiveRecord::Base
   scope :buildable, -> { where(buildable: '1') }
   scope :by_master, ->(master) { where('master = ?', master) }

@@ -20,7 +20,6 @@ class JenkinsJobsController < ApplicationController
           healthReport  = jo['healthReport']
           num_builds    = Integer
           scores        = Integer
-          total_last_10 = Integer
           num_builds    = 0
           scores        = 0
           healthReport.each do |part|
