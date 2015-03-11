@@ -1,3 +1,4 @@
+# Jenkins jobs specific data gathering
 class JenkinsJobs < ActiveRecord::Base
   scope :buildable, -> { where(buildable: '1') }
   scope :by_master, ->(master) { where('master = ?', master) }
@@ -6,9 +7,8 @@ class JenkinsJobs < ActiveRecord::Base
   def self.masters_urls
     @urls = {}
     Ddash::Application.config.JENKINS_MASTERS.each do |master|
-      @urls[master] = JenkinsHello::by_master(master).url
+      @urls[master] = JenkinsHello.by_master(master).url
     end
-    return @urls
+    @urls
   end
-
 end

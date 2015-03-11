@@ -7,7 +7,6 @@ class JenkinsJobsObjects
   # gather our objects
   def gather
     @jobs_objects                   = []
-    kaboose                         = 'api/json'
     jenkins_lexicon                 = JenkinsInfo.new
     jenkins_lexicon.jenkins_params  = @jenkins_params
     jenkins_lexicon.jenkins_url     = @jenkins_params[0]
@@ -20,7 +19,7 @@ class JenkinsJobsObjects
         end
       end
       return @jobs_objects
-    else 
+    else
       return false
     end
   end
