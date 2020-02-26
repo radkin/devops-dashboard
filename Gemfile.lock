@@ -65,6 +65,7 @@ GEM
       raabro (~> 1.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    googlecharts (1.6.12)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jbuilder (2.10.0)
@@ -192,6 +193,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (= 1.4.6)
   coffee-rails (>= 5.0.0)
+  googlecharts
   jbuilder (>= 2.10.0)
   jquery-rails (>= 4.3.5)
   listen (>= 3.2.1)

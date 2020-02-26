@@ -25,7 +25,7 @@ gem 'mysql2', '>= 0.5.3'
 # gem 'json'
 gem 'redis'
 gem 'resque-scheduler'
-# gem 'googlecharts'
+gem 'googlecharts'
 
 group :development, :test do
   gem 'listen', '>= 3.2.1'
