@@ -1,4 +1,4 @@
-class DropjenkinsHelloTable < ActiveRecord::Migration
+class DropjenkinsHelloTable < ActiveRecord::Migration[5.2]
   def up
     drop_table :jenkins_hello
   end

@@ -1,8 +1,3 @@
-require 'resque/server'
-
 Rails.application.routes.draw do
-  resources :jenkins_hello
-  resources :jenkins_jobs
-  # root to: main_page#index
-  mount Resque::Server.new, at: '/resque'
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

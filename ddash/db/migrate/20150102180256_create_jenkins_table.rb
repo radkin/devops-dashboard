@@ -1,4 +1,4 @@
-class CreateJenkinsTable < ActiveRecord::Migration
+class CreateJenkinsTable < ActiveRecord::Migration[5.2]
   def change
     create_table :jenkins_hello do |t|
       t.string 'name'

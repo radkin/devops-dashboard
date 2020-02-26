@@ -1,4 +1,4 @@
-class ChangeJenkinsjobsTable < ActiveRecord::Migration
+class ChangeJenkinsjobsTable < ActiveRecord::Migration[5.2]
   def change
     change_table :jenkins_jobs do |t|
       t.string :number
