@@ -117,8 +117,10 @@ class JenkinsHelloController < ApplicationController
       jobs_objects.each do |jo|
         if jo['name'].present?
           jo[:master] = "#{jenkins_master}"
+          jo.delete("_class")
           @this_hello = JenkinsHello.new(jo)
           @this_hello.save
+          # puts jo
         end
       end
     end

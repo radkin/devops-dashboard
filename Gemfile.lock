@@ -47,6 +47,7 @@ GEM
     bootsnap (1.4.6)
       msgpack (~> 1.0)
     builder (3.2.4)
+    byebug (10.0.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 5.2.0)
@@ -165,6 +166,8 @@ GEM
       rack (~> 2.0)
       rack-protection (= 2.0.8.1)
       tilt (~> 2.0)
+    spring (2.0.2)
+      activesupport (>= 4.2)
     sprockets (3.7.2)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -198,6 +201,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (= 1.4.6)
+  byebug (~> 10.0)
   coffee-rails (>= 5.0.0)
   googlecharts
   jbuilder (>= 2.10.0)
@@ -208,6 +212,7 @@ DEPENDENCIES
   redis
   resque-scheduler
   sass-rails (~> 6.0)
+  spring (~> 2.0)
   turbolinks (>= 5.2.1)
   uglifier (>= 1.3.0)
   web-console (~> 3.0)
